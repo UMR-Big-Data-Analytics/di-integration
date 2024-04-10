@@ -17,7 +17,7 @@
 
 # Directories
 bin/
-target/
+/target/
 output/
 data/TPCH/
 

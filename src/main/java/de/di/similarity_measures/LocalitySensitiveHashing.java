@@ -1,52 +1,74 @@
 package de.di.similarity_measures;
 
+import de.di.similarity_measures.helper.MinHash;
+import de.di.similarity_measures.helper.Tokenizer;
+
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class LocalitySensitiveHashing implements SimilarityMeasure {
 
-    private int tokenSize;
-    private boolean usePadding;
-    private List<Comparator> comparators;
+    // The tokenizer that is used to transform string inputs into token lists.
+    private final Tokenizer tokenizer;
 
-    public LocalitySensitiveHashing(int tokenSize, boolean usePadding, int numHashFunctions) {
-        this.tokenSize = tokenSize;
-        this.usePadding = usePadding;
-        this.comparators = new ArrayList<>(numHashFunctions);
+    // A flag indicating whether the Jaccard algorithm should use set or bag semantics for the similarity calculation.
+    private final boolean bagSemantics;
+
+    // The MinHash functions that are used to calculate the LSH signatures.
+    private final List<MinHash> minHashFunctions;
+
+    public LocalitySensitiveHashing(final Tokenizer tokenizer, final boolean bagSemantics, final int numHashFunctions) {
+        assert(tokenizer.getTokenSize() >= numHashFunctions);
+
+        this.tokenizer = tokenizer;
+        this.bagSemantics = bagSemantics;
+        this.minHashFunctions = new ArrayList<>(numHashFunctions);
         for (int i = 0; i < numHashFunctions; i++)
-            this.comparators.add(this.createComparatorFor(i));
+            this.minHashFunctions.add(new MinHash(i));
     }
 
+    /**
+     * Calculates the LSH similarity of the two input strings.
+     * The LHS algorithm calculates the LHS signatures by first tokenizing the input strings and then applying its
+     * internal MinHash functions to the tokenized strings. Then, it uses the two signatures to approximate the Jaccard
+     * similarity of the two strings with their signatures by simply applying the Jaccard algorithm on the two signatures.
+     * @param string1 The first string argument for the similarity calculation.
+     * @param string2 The second string argument for the similarity calculation.
+     * @return The LSH similarity (= Jaccard approximation) of the two arguments.
+     */
     @Override
-    public float calculate(String string1, String string2) {
-        return 0;
+    public double calculate(final String string1, final String string2) {
+        String[] strings1 = this.tokenizer.tokenize(string1);
+        String[] strings2 = this.tokenizer.tokenize(string2);
+        return this.calculate(strings1, strings2);
     }
 
+    /**
+     * Calculates the LSH similarity of the two input string arrays.
+     * The LHS algorithm calculates the LHS signatures by applying its internal MinHash functions to the two input string
+     * lists. Then, it uses the two signatures to approximate the Jaccard similarity of the two strings with their
+     * signatures by simply applying the Jaccard algorithm on the two signatures.
+     * @param strings1 The first string argument for the similarity calculation.
+     * @param strings2 The second string argument for the similarity calculation.
+     * @return The LSH similarity (= Jaccard approximation) of the two arguments.
+     */
     @Override
-    public float calculate(String[] strings1, String[] strings2) {
-        return 0;
-    }
+    public double calculate(final String[] strings1, final String[] strings2) {
+        double lshJaccard = 0;
 
-    private Comparator<String> createComparatorFor(int index) {
-        return new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                int i = index;
-                int charComparison = 0;
-                while (true) {
-                    if ((o1.length() < i + 1) && (o2.length() < i + 1))
-                        return o1.compareTo(o2);
-                    if (o1.length() < i + 1)
-                        return -1;
-                    if (o2.length() < i + 1)
-                        return 1;
-                    charComparison = Character.compare(o1.charAt(i), o2.charAt(i));
-                    if (charComparison != 0)
-                        return charComparison;
-                    i++;
-                }
-            }
-        };
+        String[] signature1 = new String[this.minHashFunctions.size()];
+        String[] signature2 = new String[this.minHashFunctions.size()];
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //                                      DATA INTEGRATION ASSIGNMENT                                           //
+        // Calculate the two signatures by using the internal MinHash functions. Then, use the signatures to          //
+        // approximate the Jaccard similarity.                                                                        //
+
+
+
+        //                                                                                                            //
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        return lshJaccard;
     }
 }

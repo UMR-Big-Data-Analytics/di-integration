@@ -30,10 +30,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -261,6 +258,9 @@ public class Main {
     private static void runMatchingFor(String scenarioPath, boolean withSecondLineMatcher) {
         List<Path> sources = scanFiles(scenarioPath + File.separator + "source");
         List<Path> targets = scanFiles(scenarioPath + File.separator + "target");
+
+        Collections.sort(sources);
+        Collections.sort(targets);
 
         for (Path source : sources) {
             for (Path target : targets) {

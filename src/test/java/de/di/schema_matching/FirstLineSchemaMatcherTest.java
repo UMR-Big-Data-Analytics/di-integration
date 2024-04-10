@@ -1,6 +1,5 @@
 package de.di.schema_matching;
 
-import com.opencsv.exceptions.CsvValidationException;
 import de.di.Relation;
 import de.di.schema_matching.helper.AUCPR;
 import de.di.schema_matching.helper.AUROC;
@@ -14,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -35,7 +35,7 @@ public class FirstLineSchemaMatcherTest {
 
     @Test
     public void testMatchingQuality_fdb1_mb2() {
-        this.runTestFor("fdb1_mb2", new double[]{0.68, 1.0, 0.34, 0.69, 0.94, 0.85}, new double[]{0.05, 1.0, 0.00, 0.25, 0.25, 0.08});
+        this.runTestFor("fdb1_mb2", new double[]{0.34, 0.68, 1.0, 0.69, 0.85, 0.94}, new double[]{0.00, 0.05, 1.0, 0.25, 0.08, 0.25});
     }
 
     @Test
@@ -61,6 +61,9 @@ public class FirstLineSchemaMatcherTest {
     private void runTestFor(String scenario, double[] expectedROC, double[] expectedPR) {
         List<Path> sources = this.scanFiles("data" + s + "schema_matching" + s + scenario + s + "source");
         List<Path> targets = this.scanFiles("data" + s + "schema_matching" + s + scenario + s + "target");
+
+        Collections.sort(sources);
+        Collections.sort(targets);
 
         int relationMatch = 0;
         for (Path source : sources) {

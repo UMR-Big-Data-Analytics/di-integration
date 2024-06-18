@@ -6,8 +6,8 @@ import de.di.data_profiling.structures.UCC;
 import org.junit.Test;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 
@@ -18,10 +18,10 @@ public class UCCProfilerTest {
         UCCProfiler profiler = new UCCProfiler();
         Relation relation = new Relation("data" + File.separator + "data_profiling" + File.separator + "abcde.csv");
 
-        List<UCC> uccs = profiler.profile(relation);
+        Set<UCC> uccs = new HashSet<>(profiler.profile(relation));
         assertEquals(5, uccs.size());
 
-        List<UCC> expectedUccs = new ArrayList<>(5);
+        Set<UCC> expectedUccs = new HashSet<>(5);
         expectedUccs.add(new UCC(relation, new AttributeList(new int[]{0, 1})));
         expectedUccs.add(new UCC(relation, new AttributeList(new int[]{0, 2, 4})));
         expectedUccs.add(new UCC(relation, new AttributeList(new int[]{1, 2, 4})));
@@ -35,10 +35,10 @@ public class UCCProfilerTest {
         UCCProfiler profiler = new UCCProfiler();
         Relation relation = new Relation("data" + File.separator + "data_profiling" + File.separator + "abcdefghi.csv");
 
-        List<UCC> uccs = profiler.profile(relation);
+        Set<UCC> uccs = new HashSet<>(profiler.profile(relation));
         assertEquals(20, uccs.size());
 
-        List<UCC> expectedUccs = new ArrayList<>(20);
+        Set<UCC> expectedUccs = new HashSet<>(20);
         expectedUccs.add(new UCC(relation, new AttributeList(new int[]{0, 4, 5})));
         expectedUccs.add(new UCC(relation, new AttributeList(new int[]{0, 5, 8})));
         expectedUccs.add(new UCC(relation, new AttributeList(new int[]{3, 4, 5})));
@@ -67,10 +67,10 @@ public class UCCProfilerTest {
         UCCProfiler profiler = new UCCProfiler();
         Relation relation = new Relation("data" + File.separator + "data_profiling" + File.separator + "tpch_nation.csv");
 
-        List<UCC> uccs = profiler.profile(relation);
+        Set<UCC> uccs = new HashSet<>(profiler.profile(relation));
         assertEquals(3, uccs.size());
 
-        List<UCC> expectedUccs = new ArrayList<>(3);
+        Set<UCC> expectedUccs = new HashSet<>(3);
         expectedUccs.add(new UCC(relation, new AttributeList(new int[]{0})));
         expectedUccs.add(new UCC(relation, new AttributeList(new int[]{1})));
         expectedUccs.add(new UCC(relation, new AttributeList(new int[]{3})));

@@ -36,7 +36,7 @@ public class UCCProfiler {
         // generate only minimal candidates while moving upwards and to prune non-minimal ones. Hint: The class       //
         // AttributeList offers some helpful functions to test for sub- and superset relationships. Use PLI           //
         // intersection to validate the candidates in every lattice level. Advances techniques, such as random walks, //
-        // hybrid search strategies, or hitting set reasoning can be used, but are mandatory to pass the assignment.  //
+        // hybrid search strategies, or hitting set reasoning can be used, but are optional to pass the assignment.   //
 
 
 

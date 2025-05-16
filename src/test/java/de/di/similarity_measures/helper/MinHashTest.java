@@ -8,19 +8,13 @@ public class MinHashTest {
 
     @Test
     public void testMinHashing() {
-        MinHash minHash = null;
+        MinHash minHash = new MinHash(100);
         String result = null;
 
-        minHash = new MinHash(0);
-        result = minHash.hash(new String[]{"fgh", "bcd", "abc", "cde", "def"});
-        assertEquals("abc", result);
+        assertEquals("bcd", minHash.hash(new String[]{"fgh", "bcd", "abc", "cde", "def"}));
 
-        minHash = new MinHash(1);
-        result = minHash.hash(new String[]{"abc", "bca", "bac", "xyz", "uvw"});
-        assertEquals("bac", result);
+        assertEquals("bac", minHash.hash(new String[]{"abc", "bca", "bac", "xyz", "uvw"}));
 
-        minHash = new MinHash(2);
-        result = minHash.hash(new String[]{"abc", "bca", "bac", "xyz", "bca"});
-        assertEquals("bca", result);
+        assertEquals("bac", minHash.hash(new String[]{"abc", "bca", "bac", "xyz", "bca"}));
     }
 }

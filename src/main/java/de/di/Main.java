@@ -78,7 +78,7 @@ public class Main {
                     System.out.println(levenshtein.calculate(commandLevenshtein.string1, commandLevenshtein.string2));
                     break;
                 case CommandLocalitySensitiveHashing.COMMAND:
-                    SimilarityMeasure localitySensitiveHashing = new LocalitySensitiveHashing(new Tokenizer(commandLocalitySensitiveHashing.tokenSize, commandLocalitySensitiveHashing.usePadding), commandLocalitySensitiveHashing.bagSemantics, commandLocalitySensitiveHashing.numHashFunctions);
+                    SimilarityMeasure localitySensitiveHashing = new LocalitySensitiveHashing(new Tokenizer(commandLocalitySensitiveHashing.tokenSize, commandLocalitySensitiveHashing.usePadding), commandLocalitySensitiveHashing.numHashFunctions);
                     System.out.println(localitySensitiveHashing.calculate(commandLocalitySensitiveHashing.string1, commandLocalitySensitiveHashing.string2));
                     break;
                 case CommandUCCProfiler.COMMAND:
@@ -159,7 +159,7 @@ public class Main {
         boolean withDamerau = true;
     }
 
-    @Parameters(commandDescription = "Execute the Jaccard algorithm.")
+    @Parameters(commandDescription = "Execute the LSH algorithm.")
     private static class CommandLocalitySensitiveHashing {
 
         public static final String COMMAND = "LocalitySensitiveHashing";
@@ -170,17 +170,14 @@ public class Main {
         @Parameter(names = {"--string2"}, description = "Second input string for the comparison", required = true, arity = 1)
         String string2;
 
-        @Parameter(names = {"--bagSemantics"}, description = "Specification to use bag or set semantics", required = false, arity = 1)
-        boolean bagSemantics = false;
-
         @Parameter(names = {"--tokenSize"}, description = "Specification of the token size to be used", required = false, arity = 1)
         int tokenSize = 2;
 
         @Parameter(names = {"--usePadding"}, description = "Specification of whether or not padding should be used", required = false, arity = 1)
         boolean usePadding = false;
 
-        @Parameter(names = {"--numHashFunctions"}, description = "Specification of the number of minHash functions to be used; must be smaller or equal to the tokenSize", required = false, arity = 1)
-        int numHashFunctions = 2;
+        @Parameter(names = {"--numHashFunctions"}, description = "Specification of the number of minHash functions to be used", required = false, arity = 1)
+        int numHashFunctions = 20;
     }
 
     @Parameters(commandDescription = "Execute the UCCProfiler data profiling algorithm.")

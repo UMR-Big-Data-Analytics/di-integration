@@ -4,6 +4,7 @@ import de.di.similarity_measures.helper.MinHash;
 import de.di.similarity_measures.helper.Tokenizer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LocalitySensitiveHashing implements SimilarityMeasure {
@@ -11,17 +12,11 @@ public class LocalitySensitiveHashing implements SimilarityMeasure {
     // The tokenizer that is used to transform string inputs into token lists.
     private final Tokenizer tokenizer;
 
-    // A flag indicating whether the Jaccard algorithm should use set or bag semantics for the similarity calculation.
-    private final boolean bagSemantics;
-
     // The MinHash functions that are used to calculate the LSH signatures.
     private final List<MinHash> minHashFunctions;
 
-    public LocalitySensitiveHashing(final Tokenizer tokenizer, final boolean bagSemantics, final int numHashFunctions) {
-        assert(tokenizer.getTokenSize() >= numHashFunctions);
-
+    public LocalitySensitiveHashing(final Tokenizer tokenizer, final int numHashFunctions) {
         this.tokenizer = tokenizer;
-        this.bagSemantics = bagSemantics;
         this.minHashFunctions = new ArrayList<>(numHashFunctions);
         for (int i = 0; i < numHashFunctions; i++)
             this.minHashFunctions.add(new MinHash(i));
@@ -55,9 +50,10 @@ public class LocalitySensitiveHashing implements SimilarityMeasure {
     @Override
     public double calculate(final String[] strings1, final String[] strings2) {
         double lshJaccard = 0;
+        int k = this.minHashFunctions.size();
 
-        String[] signature1 = new String[this.minHashFunctions.size()];
-        String[] signature2 = new String[this.minHashFunctions.size()];
+        String[] signature1 = new String[k];
+        String[] signature2 = new String[k];
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //                                      DATA INTEGRATION ASSIGNMENT                                           //

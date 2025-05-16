@@ -8,44 +8,32 @@ import static org.junit.Assert.assertEquals;
 public class LocalitySensitiveHashingTest {
 
     @Test
-    public void testCorrectnessBag() {
-        LocalitySensitiveHashing localitySensitiveHashing = null;
+    public void testCorrectnessStrings() {
+        LocalitySensitiveHashing lsh = new LocalitySensitiveHashing(new Tokenizer(2, true), 20);;
         double result = 0;
 
-        localitySensitiveHashing = new LocalitySensitiveHashing(new Tokenizer(2, false), true, 2);
-        result = localitySensitiveHashing.calculate("Big Data Systems", "Data Integration");
-        assertEquals((double) 1 / 4, result, 0.000001);
-
-        localitySensitiveHashing = new LocalitySensitiveHashing(new Tokenizer(2, false), true, 2);
-        result = localitySensitiveHashing.calculate(new String[]{"aa", "ba", "ab", "ba", "cb", "cb", "da"}, new String[]{"aa", "bb", "ab", "ba", "cb", "fa", "eb"});
-        assertEquals((double) 2 / 4, result, 0.000001);
+        result = lsh.calculate("Big Data Systems", "Data Integration");
+        assertEquals((double) 6 / 20, result, 0.000001);
     }
 
     @Test
-    public void testCorrectnessSet() {
-        LocalitySensitiveHashing localitySensitiveHashing = null;
+    public void testCorrectnessStringLists() {
+        LocalitySensitiveHashing lsh = new LocalitySensitiveHashing(new Tokenizer(2, true), 20);;
         double result = 0;
 
-        localitySensitiveHashing = new LocalitySensitiveHashing(new Tokenizer(2, false), false, 2);
-        result = localitySensitiveHashing.calculate("Big Data Systems", "Data Integration");
-        assertEquals((double) 1 / 3, result, 0.000001);
-
-        localitySensitiveHashing = new LocalitySensitiveHashing(new Tokenizer(2, false), false, 2);
-        result = localitySensitiveHashing.calculate(new String[]{"aa", "ba", "ab", "ba", "cb", "cb", "da"}, new String[]{"aa", "bb", "ab", "ba", "cb", "fa", "eb"});
-        assertEquals((double) 1 / 1, result, 0.000001);
+        result = lsh.calculate(new String[]{"aa", "ba", "ab", "ba", "cb", "cb", "da", "tt", "at"}, new String[]{"aa", "bb", "ab", "ba", "cb", "fa", "eb", "tt", "at"});
+        assertEquals((double) 9 / 20, result, 0.000001);
     }
 
     @Test
     public void testNull() {
-        LocalitySensitiveHashing localitySensitiveHashing = null;
+        LocalitySensitiveHashing lsh = new LocalitySensitiveHashing(new Tokenizer(2, true), 20);;
         double result = 0;
 
-        localitySensitiveHashing = new LocalitySensitiveHashing(new Tokenizer(2, false), false, 2);
-        result = localitySensitiveHashing.calculate("", "Data Integration");
-        assertEquals((double) 0 / 3, result, 0.000001);
+        result = lsh.calculate("", "Data Integration");
+        assertEquals((double) 0 / 20, result, 0.000001);
 
-        localitySensitiveHashing = new LocalitySensitiveHashing(new Tokenizer(2, false), false, 2);
-        result = localitySensitiveHashing.calculate(new String[]{"aa", "", "ab", "ba", "cb", "", "da"}, new String[]{"", "bb", "ab", "ba", "cb", "fa", "eb"});
-        assertEquals((double) 1 / 1, result, 0.000001);
+        result = lsh.calculate(new String[]{"aa", "", "ab", "ba", "cb", "", "da", "tt", "at"}, new String[]{"", "bb", "ab", "ba", "cb", "fa", "eb", "tt", "at"});
+        assertEquals((double) 4 / 20, result, 0.000001);
     }
 }

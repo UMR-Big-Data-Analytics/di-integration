@@ -19,7 +19,7 @@ public class MainTest {
         Main.main(args);
         System.out.println();
 
-        args = new String[]{"LocalitySensitiveHashing", "--string1", "Data Integration Uni Marburg", "--string2", "Datenintegration Universität Marburg", "--bagSemantics", "false", "--tokenSize", "2", "--usePadding", "true", "--numHashFunctions", "2"};
+        args = new String[]{"LocalitySensitiveHashing", "--string1", "Data Integration Uni Marburg", "--string2", "Datenintegration Universität Marburg", "--tokenSize", "2", "--usePadding", "true", "--numHashFunctions", "2"};
         Main.main(args);
         System.out.println();
 
@@ -44,3 +44,4 @@ public class MainTest {
         System.out.println();
     }
 }
+
